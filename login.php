@@ -11,33 +11,43 @@ include("database.php");
 <body>
     <h1>WELCOME TO LOGIN PAGE</h1>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-    Enter Your Username: <br>
-    <input type="text" name="username" ><br>
-    Enter Your Password: <br>
-    <input type="password" name="password"><br>
-    <input type="submit" name="login" value="Login"><br>
-    <a href="signin.php">Haven't account yet?</a><br>
-
+        Enter Your Username: <br>
+        <input type="text" name="username"><br>
+        Enter Your Password: <br>
+        <input type="password" name="password"><br>
+        <input type="submit" name="login" value="Login"><br>
+        <a href="signin.php">Haven't account yet?</a><br>
+    </form>
 </body>
 </html>
+
 <?php
-if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])){
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password' ";
-    $result = mysqli_query($conn, $sql);
-        if (mysqli_num_rows($result) == 1) {
-        // Optional: Start session and store user data
-        session_start();
-        $_SESSION['username'] = $username;
+    // Check if username exists
+    $checkUser = "SELECT * FROM users WHERE username = '$username'";
+    $userResult = mysqli_query($conn, $checkUser);
 
-        // Redirect to homepage
-        header("Location: homepage.php");
-        exit();
+    if (mysqli_num_rows($userResult) > 0) {
+        // Username exists, now check password
+        $checkPass = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+        $passResult = mysqli_query($conn, $checkPass);
+
+        if (mysqli_num_rows($passResult) > 0) {
+            // Correct login
+            session_start();
+            $_SESSION['username'] = $username;
+            header("Location: homepage.php");
+            exit();
+        } else {
+            echo "<p style='color:red;'>Incorrect password!</p>";
+        }
     } else {
-        echo "Invalid username or password.";
+        echo "<p style='color:red;'>Username does not exist!</p>";
     }
 }
+
 mysqli_close($conn);
 ?>
