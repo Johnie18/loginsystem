@@ -42,10 +42,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
             header("Location: homepage.php");
             exit();
         } else {
-            echo "<p style='color:red;'>Incorrect password!</p>";
+            echo "<script> alert('Incorrect password!')</script>";
         }
     } else {
-        echo "<p style='color:red;'>Username does not exist!</p>";
+        echo "<script> alert('Username does not exist!') </script>" ;
     }
 }
 
