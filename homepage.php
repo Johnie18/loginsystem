@@ -7,7 +7,6 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script>alert("Welcome To Homepage!")</script>
 </head>
 <body>
     <h1>WELCOME TO homepage</h1>
@@ -19,7 +18,9 @@ session_start();
 </html>
 <?php
  if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Logout"])){
-    header("Location: login.php");
+   echo "<script> alert('Logging Out');
+   window.location.href = 'login.php';
+   </script>";
     exit();
  }
  elseif(isset($_POST["messages"])){

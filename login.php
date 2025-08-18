@@ -7,6 +7,22 @@ include("database.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+        const password = document.getElementById('password');
+        const btn = document.getElementById('btn');
+        btn.addEventListener("click", function(event){
+            event.preventDefault();
+             if (password.getAttribute("type") === "password") {
+        password.setAttribute("type", "text");
+        btn.textContent = "Hide";
+      } else {
+        password.setAttribute("type", "password");
+        btn.textContent = "Show";
+      }
+        });
+            });
+    </script>
 </head>
 <body>
     <h1>WELCOME TO LOGIN PAGE</h1>
@@ -14,7 +30,8 @@ include("database.php");
         Enter Your Username: <br>
         <input type="text" name="username"><br>
         Enter Your Password: <br>
-        <input type="password" name="password"><br>
+        <input type="password" id="password" name="password">
+        <button id="btn">show</button><br>
         <input type="submit" name="login" value="Login"><br>
         <a href="signin.php">Haven't account yet?</a><br>
     </form>
@@ -39,7 +56,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
             // Correct login
             session_start();
             $_SESSION['username'] = $username;
-            header("Location: homepage.php");
+            echo "<script> alert('Welcome to homepage!');
+            window.location.href = 'homepage.php';
+            </script>";
             exit();
         } else {
             echo "<script> alert('Incorrect password!')</script>";
